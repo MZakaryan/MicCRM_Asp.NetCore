@@ -21,6 +21,7 @@ namespace MicCRM.Controllers
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
+        //Test
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
