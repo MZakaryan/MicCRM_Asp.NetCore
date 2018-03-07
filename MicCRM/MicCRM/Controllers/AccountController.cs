@@ -17,7 +17,8 @@ using MicCRM.Data.Entities;
 
 namespace MicCRM.Controllers
 {
-    [Authorize]
+   
+    //[Authorize]
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
@@ -26,7 +27,7 @@ namespace MicCRM.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
-
+      
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -205,6 +206,11 @@ namespace MicCRM.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public IActionResult LogTemp()
+        {
+            return View();
+        }
 
         [HttpGet]
         [AllowAnonymous]
@@ -213,6 +219,7 @@ namespace MicCRM.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
+
 
         [HttpPost]
         [AllowAnonymous]
