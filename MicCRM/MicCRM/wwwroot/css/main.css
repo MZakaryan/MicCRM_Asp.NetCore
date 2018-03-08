@@ -165,6 +165,11 @@ iframe {
   background-size: cover;
   position: relative;
   z-index: 1;  
+
+  background-image: url('../../images/bg-01.jpg');
+  background-color: dodgerblue;
+  background-repeat: no-repeat;
+  background-size: 100%;
 }
 
 .container-login100::before {
@@ -237,6 +242,17 @@ iframe {
   padding: 29px 0;
 }
 
+.mylabel {
+    cursor: pointer;
+}
+
+.mychackbox {
+    font-family: Ubuntu-Regular;
+    font-size: 20px;
+    color: #555555;
+    line-height: 1.2;
+}
+
 .input100 {
   font-family: Ubuntu-Regular;
   font-size: 20px;
@@ -279,11 +295,7 @@ iframe {
   -moz-transition: all 0.4s;
   transition: all 0.4s;
 
-  background: #d41872;
-  background: -webkit-linear-gradient(left, #a445b2, #d41872, #fa4299);
-  background: -o-linear-gradient(left, #a445b2, #d41872, #fa4299);
-  background: -moz-linear-gradient(left, #a445b2, #d41872, #fa4299);
-  background: linear-gradient(left, #a445b2, #d41872, #fa4299);
+  background: dodgerblue;
 }
 
 .focus-input100::after {
@@ -311,7 +323,7 @@ iframe {
 
 .input100:focus + .focus-input100::after {
   left: 23px;
-  color: #d41872;
+  color: dodgerblue;
 }
 
 .input100:focus + .focus-input100::before {
@@ -346,36 +358,29 @@ iframe {
 }
 
 .login100-form-btn {
-  font-family: Ubuntu-Bold;
-  font-size: 18px;
-  color: #fff;
-  line-height: 1.2;
-  text-transform: uppercase;
-
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 20px;
-  min-width: 160px;
-  height: 42px;
-  border-radius: 21px;
-
-  background: #d41872;
-  background: -webkit-linear-gradient(left, #a445b2, #d41872, #fa4299);
-  background: -o-linear-gradient(left, #a445b2, #d41872, #fa4299);
-  background: -moz-linear-gradient(left, #a445b2, #d41872, #fa4299);
-  background: linear-gradient(left, #a445b2, #d41872, #fa4299);
-  position: relative;
-  z-index: 1;
-
-  -webkit-transition: all 0.4s;
-  -o-transition: all 0.4s;
-  -moz-transition: all 0.4s;
-  transition: all 0.4s;
+    font-family: Ubuntu-Bold;
+    font-size: 18px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    min-width: 160px;
+    height: 42px;
+    border-radius: 21px;
+    background: dodgerblue;
+    position: relative;
+    z-index: 1;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
 }
 
 .login100-form-btn::before {
