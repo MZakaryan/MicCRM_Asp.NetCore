@@ -1,0 +1,44 @@
+﻿@using MicCRM.Models.ApplicantViewModels
+@model IEnumerable<ApplicantInfoViewModel>
+@{
+    ViewData["Title"] = "AllApplicants";
+}
+
+<div class="limiter">
+    <div class="container-table100">
+
+        <h2>Applicants</h2>
+        <div class="table100 ver6 m-b-110">
+            <table data-vertable="ver6">
+                <thead>
+                    <tr class="row100 head">
+                        <th class="column100 column1" data-column="column1">First Name</th>
+                        <th class="column100 column2" data-column="column2">Last Name</th>
+                        <th class="column100 column3" data-column="column3">Phone Number</th>
+                        <th class="column100 column4" data-column="column4">Phone Number</th>
+                        <th class="column100 column5" data-column="column5">Email</th>
+                        <th class="column100 column6" data-column="column6">Date</th>
+                        <th class="column100 column7" data-column="column7">Description</th>
+                        <th class="column100 column8" data-column="column8">Lesson</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr class="row100">
+                        <td class="column100 column1" data-column="column1">@item.FirstName</td>
+                        <td class="column100 column2" data-column="column2">@item.LastName</td>
+                        <td class="column100 column3" data-column="column3">@item.Phone1</td>
+                        <td class="column100 column4" data-column="column4">@item.Phone2</td>
+                        <td class="column100 column5" data-column="column5">@item.Email</td>
+                        <td class="column100 column6" data-column="column6">@item.Date.ToShortDateString()</td>
+                        <td class="column100 column7" data-column="column7">@item.Description</td>
+                        <td class="column100 column8" data-column="column8"><a href="#">Lesson</a></td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

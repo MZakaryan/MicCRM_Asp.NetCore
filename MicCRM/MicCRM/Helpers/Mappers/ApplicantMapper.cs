@@ -1,5 +1,5 @@
 ﻿using MicCRM.Data.Entities;
-using MicCRM.Models.ApplicanViewModels;
+using MicCRM.Models.ApplicantViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

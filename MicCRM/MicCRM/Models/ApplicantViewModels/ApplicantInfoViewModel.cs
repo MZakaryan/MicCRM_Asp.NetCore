@@ -1,7 +1,7 @@
 ﻿using MicCRM.Models.LessonViewModels;
 using System;
 
-namespace MicCRM.Models.ApplicanViewModels
+namespace MicCRM.Models.ApplicantViewModels
 {
     public class ApplicantInfoViewModel
     {
