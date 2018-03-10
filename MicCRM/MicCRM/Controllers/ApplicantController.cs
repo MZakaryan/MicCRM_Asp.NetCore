@@ -35,5 +35,10 @@ namespace MicCRM.Controllers
             }
             return View(model);
         }
+        [HttpGet]
+        public IActionResult Add()
+        {
+            return View();
+        }
     }
 }
