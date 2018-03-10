@@ -231,7 +231,7 @@ th, td {
 .table100.ver2 td {
   font-family: Montserrat-Regular;
   font-size: 14px;
-  color: #808080;
+  color: #555555;
   line-height: 1.4;
 }
 
@@ -246,12 +246,12 @@ th, td {
 }
 
 .table100.ver2 .row100:hover td {
-  background-color: #83d160;
+  background-color: #808080;
   color: #fff;
 }
 
 .table100.ver2 .hov-column-ver2 {
-  background-color: #83d160;
+  background-color: #808080;
   color: #fff;
 }
 
@@ -260,7 +260,7 @@ th, td {
 }
 
 .table100.ver2 .row100 td:hover {
-  background-color: #57b846;
+  background-color: #002933;
   color: #fff;
 }
 
