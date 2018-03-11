@@ -1,91 +1,75 @@
-﻿
+﻿@using MicCRM.Models.ApplicantViewModels
+@model AddEditApplicantViewModel
 @{
-    ViewData["Title"] = "AddApplicant";
+    ViewData["Title"] = "Add Applicant";
     Layout = null;
 }
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Contact V4</title>
+    <title>MicCRM @ViewData["Title"]</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--===============================================================================================-->
-    <link rel="icon" type="image/png" href="~/add/images/icons/favicon.ico" />
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/add/vendor/bootstrap/css/bootstrap.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/add/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/add/vendor/animate/animate.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/add/vendor/css-hamburgers/hamburgers.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/add/vendor/animsition/css/animsition.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/add/vendor/select2/select2.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/add/vendor/daterangepicker/daterangepicker.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/add/css/util.css">
+    <link rel="icon" type="image/png" href="~/images/icons/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="~/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/lib/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="~/lib/animsition/css/animsition.min.css">
+    <link rel="stylesheet" type="text/css" href="~/lib/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="~/lib/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" type="text/css" href="~/css/util.css">
     <link rel="stylesheet" type="text/css" href="~/add/css/main.css">
-    <!--===============================================================================================-->
 </head>
 <body>
 
 
     <div class="container-contact100">
         <div class="wrap-contact100">
-            <form class="contact100-form validate-form">
-                <span class="contact100-form-title">
-                    Applicant Adding Form
-                </span>
+
+            <form class="contact100-form validate-form" asp-action="Add" asp-controller="Applicant">
 
                 <div class="wrap-input100 validate-input" data-validate="Name is required">
                     <span class="label-input100">Name</span>
-                    <input class="input100" type="text" name="name" placeholder="Enter your name">
+                    <input class="input100" asp-for="FirstName" placeholder="Enter name">
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Surname is required">
+                    <span class="label-input100">Surname</span>
+                    <input class="input100" asp-for="LastName" placeholder="Enter surname">
                     <span class="focus-input100"></span>
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
                     <span class="label-input100">Email</span>
-                    <input class="input100" type="text" name="email" placeholder="Enter your email addess">
+                    <input class="input100" asp-for="Email" placeholder="Enter email addess">
                     <span class="focus-input100"></span>
                 </div>
                 <div class="wrap-input100 validate-input" data-validate="Valid number">
                     <span class="label-input100">Phone</span>
-                    <input class="input100" type="text" name="phonenumber" placeholder="Enter your email addess">
+                    <input class="input100" asp-for="Phone1" placeholder="Enter phone number">
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100">
+                    <span class="label-input100">Phone(second)</span>
+                    <input class="input100" asp-for="Phone2" placeholder="Enter phone number">
                     <span class="focus-input100"></span>
                 </div>
 
                 <div class="wrap-input100 input100-select">
                     <span class="label-input100">Lessons</span>
                     <div>
-                        <select class="selection-2" name="service">
-                            <option>C# Bootcamp</option>
-                            <option>JavaScript</option>
-                            <option>C++</option>
-                            <option>UI/UX Design</option>
-                            <option>QA</option>
-                        </select>
+                        <select class="selection-2" asp-for="LessonId" asp-items="(IEnumerable<SelectListItem>)Model.Lesssons"> </select>
                     </div>
                     <span class="focus-input100"></span>
                 </div>
 
-                <div class="wrap-input100 input100-select">
-                    <span class="label-input100">Teachers</span>
-                    <div>
-                        <select class="selection-2" name="budget">
-                            <option>Levon Hovhannisyan</option>
-                            <option>Arayik Melqonyan</option>
-                        </select>
-                    </div>
-                    <span class="focus-input100"></span>
-                </div>
-
-                <div class="wrap-input100 validate-input" data-validate="Description is required">
+                <div class="wrap-input100">
                     <span class="label-input100">Description</span>
-                    <textarea class="input100" name="message" placeholder="Description..."></textarea>
+                    <textarea class="input100" asp-for="Description" placeholder="Description..."></textarea>
                     <span class="focus-input100"></span>
                 </div>
 
@@ -108,38 +92,15 @@
 
     <div id="dropDownSelect1"></div>
 
-    <!--===============================================================================================-->
-    <script src="~/add/vendor/jquery/jquery-3.2.1.min.js"></script>
-    <!--===============================================================================================-->
-    <script src="~/add/vendor/animsition/js/animsition.min.js"></script>
-    <!--===============================================================================================-->
-    <script src="~/add/vendor/bootstrap/js/popper.js"></script>
-    <script src="~/add/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <!--===============================================================================================-->
-    <script src="~/add/vendor/select2/select2.min.js"></script>
-    <script>
-		$(".selection-2").select2({
-			minimumResultsForSearch: 20,
-			dropdownParent: $('#dropDownSelect1')
-		});
-    </script>
-    <!--===============================================================================================-->
-    <script src="~/add/vendor/daterangepicker/moment.min.js"></script>
-    <script src="~/add/vendor/daterangepicker/daterangepicker.js"></script>
-    <!--===============================================================================================-->
-    <script src="~/add/vendor/countdowntime/countdowntime.js"></script>
-    <!--===============================================================================================-->
+    <script src="~/lib/jquery/jquery-3.2.1.min.js"></script>
+    <script src="~/lib/animsition/js/animsition.min.js"></script>
+    <script src="~/lib/bootstrap/js/popper.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/lib/select2/select2.min.js"></script>
+    <script src="~/lib/daterangepicker/moment.min.js"></script>
+    <script src="~/lib/daterangepicker/daterangepicker.js"></script>
+    <script src="~/lib/countdowntime/countdowntime.js"></script>
     <script src="~/add/js/main.js"></script>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
-    <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-23581568-13');
-    </script>
 
 </body>
 </html>

@@ -44,21 +44,9 @@
                                 <th class="column100 column9" data-column="column9">@item.X</th>
                                 <th class="column100 column10" data-column="column10">@item.Y</th>
                                 <th class="column100 column11" data-column="column11">@item.Z</th>
-                                <td class="column100 column12 tableBtn" data-column="column12"><a href="#">@Html.HiddenFor(a => item.Id)Lessons</a></td>
-                            </tr>
-                            <tr class="row100 hide">
-                                <td class="column100 column9" data-column="column9">@index</td>
-                                <td class="column100 column1" data-column="column1">@item.FirstName</td>
-                                <td class="column100 column2" data-column="column2">@item.LastName</td>
-                                <td class="column100 column3" data-column="column3">@item.Phone1</td>
-                                <td class="column100 column4" data-column="column4">@item.Phone2</td>
-                                <td class="column100 column5" data-column="column5">@item.Email</td>
-                                <td class="column100 column6" data-column="column6">@item.Date.ToShortDateString()</td>
-                                <td class="column100 column7" data-column="column7">@item.Description</td>
-                                <th class="column100 column8" data-column="column8">@item.X</th>
-                                <th class="column100 column10" data-column="column10">@item.Y</th>
-                                <th class="column100 column11" data-column="column11">@item.Z</th>
-                                <td class="column100 column12 tableBtn" data-column="column12"><a href="#">@Html.HiddenFor(a => item.Id)Lessons</a></td>
+                                <td class="column100 column12 studTableBtn" data-column="column12">
+                                    <button class="stdTableBtn" data-toggle="modal" data-target="#myModal" id="@item.Id">Lessons</button>
+                                </td>
                             </tr>
                             index++;
                         }
@@ -70,3 +58,34 @@
     </div>
 </div>
 
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Lesson</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped" id="tblGrid">
+                    <thead id="tblHead">
+                        <tr>
+                            <th>Technology</th>
+                            <th>Teacher</th>
+                            <th>Starting date</th>
+                            <th>Ending date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

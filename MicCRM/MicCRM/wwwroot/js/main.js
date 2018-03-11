@@ -13,8 +13,8 @@
             else {
                 $(this).removeClass('has-val');
             }
-        })
-    })
+        });
+    });
 
 
     /*==================================================================
@@ -85,11 +85,3 @@
 
 
 })(jQuery);
-
-window.onload = function () {
-    $('#tableBtn').click(function () {
-        $.ajax({
-            type: "GET",
-        });
-    })
-}

@@ -147,14 +147,16 @@ th, td {
   padding-bottom: 14px;
 }
 
-
+.modal-body p {
+    font-size: 19px;
+}
 /*==================================================================
 [ Ver1 ]*/
 .table100.ver1 td {
-  font-family: Montserrat-Regular;
-  font-size: 14px;
-  color: #808080;
-  line-height: 1.4;
+    font-family: Montserrat-Regular;
+    font-size: 14px;
+    color: #808080;
+    line-height: 1.4;
 }
 
 .table100.ver1 th {
