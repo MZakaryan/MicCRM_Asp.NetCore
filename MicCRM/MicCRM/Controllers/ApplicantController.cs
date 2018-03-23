@@ -97,8 +97,6 @@ namespace MicCRM.Controllers
         public JsonResult GetLesson(int id)
         {
             var lesson = from l in _dbContext.Lessons where l.Id == id
-                         join teacher in _dbContext.Teachers on l.TeacherId equals teacher.Id
-                         join tech in _dbContext.Technologies on l.TechnologyId equals tech.Id
                          select new
                          {
                              l.Technology.Name,

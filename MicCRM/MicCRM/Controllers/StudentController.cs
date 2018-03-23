@@ -38,5 +38,30 @@ namespace MicCRM.Controllers
 
             return View(model);
         }
+
+        public JsonResult GetLessons(int id)
+        {
+            var les = from l in _dbContex.Students
+                      .Include(s => s.StudentLessons)
+                          .ThenInclude(sl => sl.Lesson)
+                              .ThenInclude(l => l.Teacher)
+                      .Include(s => s.StudentLessons)
+                          .ThenInclude(sl => sl.Lesson)
+                              .ThenInclude(l => l.Technology)
+                      .Where(s => s.Id == id)
+                      .FirstOrDefault()
+                      .StudentLessons
+                      .Select(sl => sl.Lesson)
+                      select new
+                      {
+                          l.Technology.Name,
+                          l.Teacher.FirstName,
+                          l.Teacher.LastName,
+                          l.StartingDate,
+                          l.EndingDate
+                      };
+
+            return Json(les);
+        }
     }
 }

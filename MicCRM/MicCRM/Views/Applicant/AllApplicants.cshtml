@@ -4,6 +4,7 @@
     ViewData["Title"] = "AllApplicants";
     int index = 1;
 }
+
 <div class="limiter">
     <div class="container-table100">
 
@@ -13,7 +14,9 @@
             <table data-vertable="ver2">
                 <thead>
                     <tr class="row100 head">
-                        <th class="column100 column1" data-column="column1"></th>
+                        <th class="column100 column1" data-column="column1">
+                            <input type="checkbox" onClick="toggle(this)">
+                        </th>
                         <th class="column100 column2" data-column="column2">First Name</th>
                         <th class="column100 column3" data-column="column3">Last Name</th>
                         <th class="column100 column4" data-column="column4">Phone Number</th>
@@ -22,13 +25,16 @@
                         <th class="column100 column7" data-column="column7">Date</th>
                         <th class="column100 column8" data-column="column8">Description</th>
                         <th class="column100 column9" data-column="column9">Lesson</th>
+                        <th class="column100 column10" data-column="column10">Edit</th>
                     </tr>
                 </thead>
                 <tbody>
                         @foreach (var item in Model)
                         {
                             <tr class="row100">
-                                <td class="column100 column1" data-column="column1">@index</td>
+                                <td class="column100 column1" data-column="column1">
+                                    <input name="app" type="checkbox">
+                                </td>
                                 <td class="column100 column2" data-column="column2">@item.FirstName</td>
                                 <td class="column100 column3" data-column="column3">@item.LastName</td>
                                 <td class="column100 column4" data-column="column4">@item.Phone1</td>

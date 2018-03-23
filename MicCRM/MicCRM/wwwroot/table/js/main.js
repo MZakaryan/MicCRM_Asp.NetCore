@@ -24,26 +24,54 @@
 
 })(jQuery);
 
-window.onload = function () {
-    $('.appTableBtn').click(function () {
-        $.ajax({
-            type: "GET",
-            data: { id: this.id },
-            url: "/Applicant/GetLesson",
-            dataType: "json",
-            success: function (obj) {
-                for (var i = 0; i < obj.length; i++) {
-                    $('.modal-body tbody').empty();
-                    $('.modal-body tbody').append(
-                        "<tr>" + 
-                            "<td>" + obj[i].name + "</td>" +
-                            "<td>" + obj[i].firstName + " " + obj[i].lastName + "</td>" +
-                            "<td>" + obj[i].startingDate.split("T")[0] + "</td>" +
-                            "<td>" + obj[i].endingDate.split("T")[0] + "</td>" +
-                        "</tr>"
-                    );
-                }
+
+$('.appTableBtn').click(function () {
+    $.ajax({
+        type: "GET",
+        data: { id: this.id },
+        url: "/Applicant/GetLesson",
+        dataType: "json",
+        success: function (obj) {
+            $('.modal-body tbody').empty();
+            for (var i = 0; i < obj.length; i++) {
+                $('.modal-body tbody').append(
+                    "<tr>" +
+                    "<td>" + obj[i].name + "</td>" +
+                    "<td>" + obj[i].firstName + " " + obj[i].lastName + "</td>" +
+                    "<td>" + obj[i].startingDate.split("T")[0] + "</td>" +
+                    "<td>" + obj[i].endingDate.split("T")[0] + "</td>" +
+                    "</tr>"
+                );
             }
-        });
+        }
     });
-};
+});
+
+$('.stdTableBtn').click(function () {
+    $.ajax({
+        type: "GET",
+        data: { id: this.id },
+        url: "/Student/GetLessons",
+        dataType: "json",
+        success: function (obj) {
+            $('.modal-body tbody').empty();
+            for (var i = 0; i < obj.length; i++) {
+                $('.modal-body tbody').append(
+                    "<tr>" +
+                    "<td>" + obj[i].name + "</td>" +
+                    "<td>" + obj[i].firstName + " " + obj[i].lastName + "</td>" +
+                    "<td>" + obj[i].startingDate.split("T")[0] + "</td>" +
+                    "<td>" + obj[i].endingDate.split("T")[0] + "</td>" +
+                    "</tr>"
+                );
+            }
+        }
+    });
+});
+
+function toggle(source) {
+    checkboxes = document.getElementsByName('app');
+    for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].checked = source.checked;
+    }
+}
