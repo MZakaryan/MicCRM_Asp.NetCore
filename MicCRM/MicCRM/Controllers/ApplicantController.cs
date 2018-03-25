@@ -24,19 +24,34 @@ namespace MicCRM.Controllers
 
         public IActionResult AllApplicants()
         {
+            return View(GetAllApplicantIVM());
+        }
+
+        public IActionResult GetApplicantsForPartial()
+        {
+            return View("_ApplicantTablePartial", GetAllApplicantIVM());
+        }
+
+        [NonAction]
+        private List<ApplicantInfoViewModel> GetAllApplicantIVM()
+        {
             var applicants = _dbContext.Applicants
-                .Include(a => a.Lesson)
-                    .ThenInclude(l => l.Teacher)
-                .Include(a => a.Lesson)
-                    .ThenInclude(l => l.Technology);
+                            .Include(a => a.Lesson)
+                                .ThenInclude(l => l.Teacher)
+                            .Include(a => a.Lesson)
+                                .ThenInclude(l => l.Technology)
+                            .Where(a => a.IsStudent == false)
+                            .OrderByDescending(a => a.Date);
 
             List<ApplicantInfoViewModel> model = new List<ApplicantInfoViewModel>();
             foreach (var item in applicants)
             {
                 model.Add(ApplicantMapper.Mapping(item));
             }
-            return View(model);
+
+            return model;
         }
+
         [HttpGet]
         public IActionResult Add()
         {
@@ -48,7 +63,6 @@ namespace MicCRM.Controllers
             {
                 Lesssons = GetSelectListItem(lessons)
             };
-
             return View(model);
         }
 
@@ -94,9 +108,48 @@ namespace MicCRM.Controllers
             return lessonsToSelect;
         }
 
+        [HttpPost]
+        public void MakeStudent(params int[] arrayOfId)
+        {
+            if (arrayOfId.Length == 0)
+                return;
+
+            foreach (int id in arrayOfId)
+            {
+                Applicant applicant = _dbContext.Applicants
+                            .Include(a => a.Lesson)
+                            .Where(a => a.Id == id)
+                            .SingleOrDefault();
+                applicant.IsStudent = true;
+                AddStudent(applicant);
+                _dbContext.Entry(applicant).State = EntityState.Modified;
+            }
+            _dbContext.SaveChanges();
+        }
+
+        [NonAction]
+        private void AddStudent(Applicant applicant)
+        {
+            Student student = new Student()
+            {
+                ApplicantId = applicant.Id,
+            };
+
+            StudentLessons studentLessons = new StudentLessons()
+            {
+                Student = student,
+                Lesson = _dbContext.Lessons.Find(applicant.Lesson.Id),
+            };
+
+            _dbContext.Add(studentLessons);
+        }
+
         public JsonResult GetLesson(int id)
         {
-            var lesson = from l in _dbContext.Lessons where l.Id == id
+            var lesson = from l in _dbContext.Lessons
+                                        .Include(l => l.Teacher)
+                                        .Include(l => l.Technology)
+                                        .Where(l => l.Id == id)
                          select new
                          {
                              l.Technology.Name,

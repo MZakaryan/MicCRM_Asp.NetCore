@@ -14,5 +14,6 @@ namespace MicCRM.Models.ApplicantViewModels
         public DateTime Date { get; set; }
         public string Description { get; set; }
         public LessonInfoViewModel Lesson { get; set; }
+        public bool IsStudent { get; set; }
     }
 }

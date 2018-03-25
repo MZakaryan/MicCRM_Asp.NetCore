@@ -91,24 +91,29 @@ iframe {
 /*//////////////////////////////////////////////////////////////////
 [ Table ]*/
 
+.myh2 {
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
 .limiter {
-  width: 100%;
-  margin: 0 auto;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .container-table100 {
   width: 100%;
-  min-height: 60vh;
 
-  display: -webkit-box;
+  /*display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
   display: -ms-flexbox;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  padding: 80px 0px;
+  display: flex;*/
+  /*align-items: center;*/
+  /*justify-content: center;*/
+  /*flex-wrap: wrap;*/
+  padding: 10px 10px;
 }
 
 .wrap-table100 {

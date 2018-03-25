@@ -25,10 +25,10 @@
 })(jQuery);
 
 
-$('.appTableBtn').click(function () {
+function getApplicantLesson(source) {
     $.ajax({
         type: "GET",
-        data: { id: this.id },
+        data: { id: source.id },
         url: "/Applicant/GetLesson",
         dataType: "json",
         success: function (obj) {
@@ -36,16 +36,16 @@ $('.appTableBtn').click(function () {
             for (var i = 0; i < obj.length; i++) {
                 $('.modal-body tbody').append(
                     "<tr>" +
-                    "<td>" + obj[i].name + "</td>" +
-                    "<td>" + obj[i].firstName + " " + obj[i].lastName + "</td>" +
-                    "<td>" + obj[i].startingDate.split("T")[0] + "</td>" +
-                    "<td>" + obj[i].endingDate.split("T")[0] + "</td>" +
+                        "<td>" + obj[i].name + "</td>" +
+                        "<td>" + obj[i].firstName + " " + obj[i].lastName + "</td>" +
+                        "<td>" + obj[i].startingDate.split("T")[0] + "</td>" +
+                        "<td>" + obj[i].endingDate.split("T")[0] + "</td>" +
                     "</tr>"
                 );
             }
         }
     });
-});
+}
 
 $('.stdTableBtn').click(function () {
     $.ajax({
@@ -58,10 +58,10 @@ $('.stdTableBtn').click(function () {
             for (var i = 0; i < obj.length; i++) {
                 $('.modal-body tbody').append(
                     "<tr>" +
-                    "<td>" + obj[i].name + "</td>" +
-                    "<td>" + obj[i].firstName + " " + obj[i].lastName + "</td>" +
-                    "<td>" + obj[i].startingDate.split("T")[0] + "</td>" +
-                    "<td>" + obj[i].endingDate.split("T")[0] + "</td>" +
+                        "<td>" + obj[i].name + "</td>" +
+                        "<td>" + obj[i].firstName + " " + obj[i].lastName + "</td>" +
+                        "<td>" + obj[i].startingDate.split("T")[0] + "</td>" +
+                        "<td>" + obj[i].endingDate.split("T")[0] + "</td>" +
                     "</tr>"
                 );
             }
@@ -70,8 +70,52 @@ $('.stdTableBtn').click(function () {
 });
 
 function toggle(source) {
-    checkboxes = document.getElementsByName('app');
+    var checkboxes = $('[name="app"]');
     for (var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].checked = source.checked;
     }
+}
+
+function makeStudent() {
+    var arrayOfId = getIdSelectedRows();
+    if (arrayOfId.length == 0) {
+        return;
+    }
+    //$.ajax({
+    //    type: "post",
+    //    data: { arrayOfId },
+    //    url: "/Applicant/MakeStudent",
+    //    success: function () {
+    //        refreshApplicantsTable(arrayOfId);
+    //    }
+    //});
+    refreshApplicantsTable(arrayOfId);
+}
+
+function refreshApplicantsTable(arrayOfId) {
+    for (var i = 0; i < arrayOfId.length; i++) {
+        $("tr").remove('#' + arrayOfId[i]);
+    }
+
+    //$.ajax({
+    //    type: "GET",
+    //    url: "/Applicant/GetApplicantsForPartial",
+    //    dataType: "html",
+    //    success: function (obj) {
+    //        $('.myTbody').empty();
+    //        $('.myTbody').append(obj);
+    //    }
+    //});
+}
+
+//get array of id of the selected rows
+function getIdSelectedRows() {
+    var checkboxes = $('[name="app"]');
+    var id = [];
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            id.push(checkboxes[i].id);
+        }
+    }
+    return id;
 }
