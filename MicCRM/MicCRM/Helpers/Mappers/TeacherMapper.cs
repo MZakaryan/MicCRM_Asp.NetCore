@@ -17,7 +17,7 @@ namespace MicCRM.Helpers.Mappers
                 Id = teacher.Id,
                 FirstName = teacher.FirstName,
                 LastName = teacher.LastName,
-                Phone = teacher.Phone,
+                Phone1 = teacher.Phone,
                 Email = teacher.Email
             };
         }

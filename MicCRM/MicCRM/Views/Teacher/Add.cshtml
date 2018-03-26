@@ -1,7 +1,7 @@
-﻿@using MicCRM.Models.ApplicantViewModels
-@model AddEditApplicantViewModel
+﻿@using MicCRM.Models.TeacherViewModels
+@model AddEditTeacherViewModel
 @{
-    ViewData["Title"] = "Add Applicant";
+    ViewData["Title"] = "Add Teacher";
     Layout = null;
 }
 
@@ -26,50 +26,30 @@
 
     <div class="container-contact100">
         <div class="wrap-contact100">
-
-            <form class="contact100-form validate-form" asp-action="Add" asp-controller="Applicant">
-
+           
+            <form class="contact100-form validate-form" asp-action="Add" asp-controller="Teacher">
+             
                 <div class="wrap-input100 validate-input" data-validate="Name is required">
                     <span class="label-input100">Name</span>
                     <input class="input100" asp-for="FirstName" placeholder="Enter name">
                     <span class="focus-input100"></span>
                 </div>
-
+            
                 <div class="wrap-input100 validate-input" data-validate="Surname is required">
                     <span class="label-input100">Surname</span>
                     <input class="input100" asp-for="LastName" placeholder="Enter surname">
                     <span class="focus-input100"></span>
                 </div>
-
+            
                 <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
                     <span class="label-input100">Email</span>
                     <input class="input100" asp-for="Email" placeholder="Enter email addess">
                     <span class="focus-input100"></span>
                 </div>
-                
+            
                 <div class="wrap-input100 validate-input" data-validate="Valid number">
                     <span class="label-input100">Phone</span>
                     <input class="input100" asp-for="Phone1" placeholder="Enter phone number">
-                    <span class="focus-input100"></span>
-                </div>
-
-                <div class="wrap-input100">
-                    <span class="label-input100">Phone(second)</span>
-                    <input class="input100" asp-for="Phone2" placeholder="Enter phone number">
-                    <span class="focus-input100"></span>
-                </div>
-
-                <div class="wrap-input100 input100-select">
-                    <span class="label-input100">Lessons</span>
-                    <div>
-                        <select class="selection-2" asp-for="LessonId" asp-items="(IEnumerable<SelectListItem>)Model.Lesssons"> </select>
-                    </div>
-                    <span class="focus-input100"></span>
-                </div>
-
-                <div class="wrap-input100">
-                    <span class="label-input100">Description</span>
-                    <textarea class="input100" asp-for="Description" placeholder="Description..."></textarea>
                     <span class="focus-input100"></span>
                 </div>
 
@@ -88,10 +68,8 @@
         </div>
     </div>
 
-
-
     <div id="dropDownSelect1"></div>
-
+   
     <script src="~/lib/jquery/jquery-3.2.1.min.js"></script>
     <script src="~/lib/animsition/js/animsition.min.js"></script>
     <script src="~/lib/bootstrap/js/popper.js"></script>
@@ -101,7 +79,6 @@
     <script src="~/lib/daterangepicker/daterangepicker.js"></script>
     <script src="~/lib/countdowntime/countdowntime.js"></script>
     <script src="~/add/js/main.js"></script>
-
 </body>
 </html>
 

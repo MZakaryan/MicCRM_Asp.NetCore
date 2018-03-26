@@ -1,0 +1,43 @@
+﻿@using MicCRM.Models.TeacherViewModels
+@model IEnumerable<TeacherInfoViewModel>
+@{
+    ViewData["Title"] = "AllTeachers";
+}
+
+<h2 class="myh2">Teachers</h2>
+<form asp-action="Add" asp-controller="Teacher" method="get">
+    <button class="btn btn-default">Add</button>
+</form>
+
+<div class="limiter">
+    <div class="container-table100">
+        <div class="table100 ver2 m-b-110">
+            <table data-vertable="ver2">
+                <thead>
+                    <tr class="row100 head">
+                        <th class="column100 column2" data-column="column2">First Name</th>
+                        <th class="column100 column3" data-column="column3">Last Name</th>
+                        <th class="column100 column4" data-column="column4">Phone</th>
+                        <th class="column100 column5" data-column="column5">Email</th>
+                        <th class="column100 column6" data-column="column6">Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="row100">
+                            <td class="column100 column2" data-column="column2">@item.FirstName</td>
+                            <td class="column100 column3" data-column="column3">@item.LastName</td>
+                            <td class="column100 column4" data-column="column4">@item.Phone1</td>
+                            <td class="column100 column5" data-column="column5">@item.Email</td>
+                            <td class="column100 column6" data-column="column6">
+                                <a href="#">Edit</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
