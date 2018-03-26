@@ -28,7 +28,7 @@ namespace MicCRM.Data.Entities
         public virtual Technology Technology { get; set; }
 
         public virtual ICollection<StudentLessons> LessonStudents { set; get; }
-
+        
         public override string ToString()
         {
             return $"{Technology.Name}, {Teacher.FirstName} {Teacher.LastName}, {StartingDate.ToShortDateString()} - {EndingDate.ToShortDateString()}";

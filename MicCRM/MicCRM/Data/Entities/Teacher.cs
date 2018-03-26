@@ -15,5 +15,10 @@ namespace MicCRM.Data.Entities
 
         [Required]
         public string Email { get; set; }
+
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName}";
+        }
     }
 }
