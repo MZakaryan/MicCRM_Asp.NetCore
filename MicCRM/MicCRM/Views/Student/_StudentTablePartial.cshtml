@@ -1,7 +1,6 @@
 ﻿@using MicCRM.Models.StudentViewModels
 @model IEnumerable<StudentInfoViewModel>
 @{
-    int index = 1;
     Layout = null;
 }
 
@@ -22,12 +21,11 @@
         <th class="column100 column10" data-column="column10">@item.Y</th>
         <th class="column100 column11" data-column="column11">@item.Z</th>
         <td class="column100 column12 studTableBtn" data-column="column12">
-            <button class="stdTableBtn" data-toggle="modal" data-target="#myModal" id="@item.Id">Lessons</button>
+            <button onclick="getStudentLessons(this)" data-toggle="modal" data-target="#myModal" id="@item.Id">Lessons</button>
         </td>
         <td class="column100 column13" data-column="column13">
             <a href="#">Edit</a>
         </td>
     </tr>
-    index++;
 }
 

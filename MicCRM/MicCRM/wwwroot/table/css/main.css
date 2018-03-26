@@ -133,7 +133,7 @@ th, td {
 }
 
 .column100 {
-  width: 130px;
+  /*width: 90px;*/
   padding-left: 25px;
 }
 
@@ -148,8 +148,8 @@ th, td {
 }
 
 .row100 td {
-  padding-top: 18px;
-  padding-bottom: 14px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .modal-body p {

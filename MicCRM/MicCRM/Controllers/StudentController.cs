@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MicCRM.Data;
+using MicCRM.Data.Entities;
 using MicCRM.Helpers.Mappers;
 using MicCRM.Models.StudentViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +38,31 @@ namespace MicCRM.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult AddLessonToStudent(int lessonId, params int[] arrayOfStudentId)
+        {
+            if (arrayOfStudentId.Length == 0)
+                return Json(false);
+
+            var lesson = _dbContex.Lessons
+                         .Where(l => l.Id == lessonId)
+                         .SingleOrDefault();
+            foreach (int id in arrayOfStudentId)
+            {
+                var student = _dbContex.Students
+                              .Where(s => s.Id == id)
+                              .SingleOrDefault();
+                StudentLessons studentLessons = new StudentLessons()
+                {
+                    Lesson = lesson,
+                    Student = student
+                };
+                _dbContex.Add(studentLessons);
+            }
+            bool flag = true ? _dbContex.SaveChanges() != 0 : false;
+            return Json(flag);
         }
 
         public JsonResult GetLessons(int id)

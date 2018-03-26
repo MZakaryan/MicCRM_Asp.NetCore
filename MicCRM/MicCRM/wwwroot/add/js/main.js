@@ -23,6 +23,19 @@
   
     /*==================================================================
     [ Validate ]*/
+
+    var techName = $('.validate-input input[name="Name"]');
+
+    $('.validate-form').on('submit', function () {
+        var check = true;
+
+        if ($(techName).val().trim() == '') {
+            showValidate(techName);
+            check = false;
+        }
+        return check;
+    });
+
     var name = $('.validate-input input[name="FirstName"]');
     var surname = $('.validate-input input[name="LastName"]');
     var email = $('.validate-input input[name="Email"]');

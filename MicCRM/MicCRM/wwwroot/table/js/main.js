@@ -1,4 +1,3 @@
-
 (function ($) {
     "use strict";
     $('.column100').on('mouseover', function () {
@@ -32,14 +31,14 @@ function getApplicantLesson(source) {
         url: "/Applicant/GetLesson",
         dataType: "json",
         success: function (obj) {
-            $('.modal-body tbody').empty();
+            $('#myModal .modal-body tbody').empty();
             for (var i = 0; i < obj.length; i++) {
-                $('.modal-body tbody').append(
+                $('#myModal .modal-body tbody').append(
                     "<tr>" +
-                        "<td>" + obj[i].name + "</td>" +
-                        "<td>" + obj[i].firstName + " " + obj[i].lastName + "</td>" +
-                        "<td>" + obj[i].startingDate.split("T")[0] + "</td>" +
-                        "<td>" + obj[i].endingDate.split("T")[0] + "</td>" +
+                    "<td>" + obj[i].name + "</td>" +
+                    "<td>" + obj[i].firstName + " " + obj[i].lastName + "</td>" +
+                    "<td>" + obj[i].startingDate.split("T")[0] + "</td>" +
+                    "<td>" + obj[i].endingDate.split("T")[0] + "</td>" +
                     "</tr>"
                 );
             }
@@ -47,27 +46,89 @@ function getApplicantLesson(source) {
     });
 }
 
-$('.stdTableBtn').click(function () {
+
+function getLessons() {
     $.ajax({
         type: "GET",
-        data: { id: this.id },
-        url: "/Student/GetLessons",
+        url: "/Lesson/GetLessons",
         dataType: "json",
         success: function (obj) {
-            $('.modal-body tbody').empty();
+            $('#addLessonModal .modal-body tbody').empty();
             for (var i = 0; i < obj.length; i++) {
-                $('.modal-body tbody').append(
+                $('#addLessonModal .modal-body tbody').append(
                     "<tr>" +
-                        "<td>" + obj[i].name + "</td>" +
-                        "<td>" + obj[i].firstName + " " + obj[i].lastName + "</td>" +
-                        "<td>" + obj[i].startingDate.split("T")[0] + "</td>" +
-                        "<td>" + obj[i].endingDate.split("T")[0] + "</td>" +
+                    "<td>" +
+                    "<input type=" + "radio" + " id=" + obj[i].id + " name=" + "check" + ">" +
+                    "</td>" +
+                    "<td>" + obj[i].name + "</td>" +
+                    "<td>" + obj[i].firstName + " " + obj[i].lastName + "</td>" +
+                    "<td>" + obj[i].startingDate.split("T")[0] + "</td>" +
+                    "<td>" + obj[i].endingDate.split("T")[0] + "</td>" +
                     "</tr>"
                 );
             }
         }
     });
-});
+}
+
+function getStudentLessons(source) {
+    $.ajax({
+        type: "GET",
+        data: { id: source.id },
+        url: "/Student/GetLessons",
+        dataType: "json",
+        success: function (obj) {
+            $('#myModal .modal-body tbody').empty();
+            for (var i = 0; i < obj.length; i++) {
+                $('#myModal .modal-body tbody').append(
+                    "<tr>" +
+                    "<td>" + obj[i].name + "</td>" +
+                    "<td>" + obj[i].firstName + " " + obj[i].lastName + "</td>" +
+                    "<td>" + obj[i].startingDate.split("T")[0] + "</td>" +
+                    "<td>" + obj[i].endingDate.split("T")[0] + "</td>" +
+                    "</tr>"
+                );
+            }
+        }
+    });
+}
+
+function addLesson() {
+    var id = getIdSelectedRadioButton();
+    var array = getIdSelectedRows();
+    if (array.length == 0 || id == null) {
+        alert("You have not chosen a student or lesson.");
+        return;
+    }
+    $.ajax({
+        type: "post",
+        data: {
+            lessonId: id,
+            arrayOfStudentId: array
+        },
+        url: "/Student/AddLessonToStudent",
+        dataType: "json",
+        success: function (obj) {
+            if (obj == true) {
+                alert("Lesson Added.");
+            }
+            else {
+                alert("Invalid Operation!!!");
+            }
+        },
+        error: function (obj) {
+            alert("The student already has this lesson. Try again.");
+        }
+    });
+}
+
+function getIdSelectedRadioButton() {
+    var radio = $('[name="check"]:checked');
+    if (radio.length == 0) {
+        return;
+    }
+    return radio[0].id;
+}
 
 function toggle(source) {
     var checkboxes = $('[name="app"]');

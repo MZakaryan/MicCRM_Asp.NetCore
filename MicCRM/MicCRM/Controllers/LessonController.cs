@@ -21,6 +21,24 @@ namespace MicCRM.Controllers
             _dbContext = dbContext;
         }
 
+        public JsonResult GetLessons()
+        {
+            var lesson = from l in _dbContext.Lessons
+                                        .Include(l => l.Teacher)
+                                        .Include(l => l.Technology)
+                         select new
+                         {
+                             l.Id,
+                             l.Technology.Name,
+                             l.Teacher.FirstName,
+                             l.Teacher.LastName,
+                             l.StartingDate,
+                             l.EndingDate
+                         };
+            
+            return Json(lesson);
+        }
+
         public IActionResult AllLessons()
         {
             var lessons = _dbContext.Lessons
