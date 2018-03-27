@@ -70,7 +70,13 @@ function getLessons() {
         }
     });
 }
-
+function getApplicantDescription(source) {
+    var desc = source.value;
+    var a =$('#descriptionModal .modal-body').empty();
+    var b =$('#descriptionModal .modal-body').append(
+        "<p>" + desc + "</p>"
+    );
+}
 function getStudentLessons(source) {
     $.ajax({
         type: "GET",
@@ -135,6 +141,22 @@ function toggle(source) {
     for (var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].checked = source.checked;
     }
+}
+
+function deleteApplicants() {
+    var arrayOfId = getIdSelectedRows();
+    if (arrayOfId.length === 0) {
+        return;
+    }
+    $.ajax({
+        type: "post",
+        data: { arrayOfId },
+        url: "/Applicant/Delete",
+        success: function () {
+            refreshApplicantsTable(arrayOfId);
+        }
+    });
+    //refreshApplicantsTable(arrayOfId);
 }
 
 function makeStudent() {

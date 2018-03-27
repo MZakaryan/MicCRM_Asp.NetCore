@@ -1,12 +1,13 @@
-﻿@using MicCRM.Models.ApplicantViewModels
-@model ApplicantsAndLessonsViewModel
+﻿@using MicCRM.Helpers
+@using MicCRM.Models.ApplicantViewModels
+@model PaginatedList<ApplicantInfoViewModel>
 @{
     int index = 1;
     Layout = null;
 }
 
 
-@foreach (var item in Model.Applicants)
+@foreach (var item in Model)
 {
     <tr class="row100" id="@item.Id">
         <td class="column100 column1" data-column="column1">
@@ -18,7 +19,9 @@
         <td class="column100 column5" data-column="column5">@item.Phone2</td>
         <td class="column100 column6" data-column="column6">@item.Email</td>
         <td class="column100 column7" data-column="column7">@item.Date.ToShortDateString()</td>
-        <td class="column100 column8" data-column="column8">@item.Description</td>
+        <td class="column100 column8" data-column="column8">
+            <button onclick="getApplicantDescription(this)" data-toggle="modal" data-target="#descriptionModal" value="@item.Description">View</button>
+        </td>
         <td class="column100 column9" data-column="column9">
             <button onclick="getApplicantLesson(this)" data-toggle="modal" data-target="#myModal" id="@item.Lesson.Id">Lesson</button>
         </td>

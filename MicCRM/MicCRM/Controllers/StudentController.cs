@@ -6,11 +6,13 @@ using MicCRM.Data;
 using MicCRM.Data.Entities;
 using MicCRM.Helpers.Mappers;
 using MicCRM.Models.StudentViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace MicCRM.Controllers
 {
+    [Authorize]
     public class StudentController : Controller
     {
         private readonly ApplicationDbContext _dbContex;

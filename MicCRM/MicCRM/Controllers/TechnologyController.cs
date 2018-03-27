@@ -6,10 +6,12 @@ using MicCRM.Data;
 using MicCRM.Data.Entities;
 using MicCRM.Helpers.Mappers;
 using MicCRM.Models.TechnologyViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MicCRM.Controllers
 {
+    [Authorize]
     public class TechnologyController : Controller
     {
         private readonly ApplicationDbContext _dbContext;

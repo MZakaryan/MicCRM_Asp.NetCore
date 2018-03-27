@@ -6,10 +6,12 @@ using MicCRM.Data;
 using MicCRM.Data.Entities;
 using MicCRM.Helpers.Mappers;
 using MicCRM.Models.TeacherViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MicCRM.Controllers
 {
+    [Authorize]
     public class TeacherController : Controller
     {
         private readonly ApplicationDbContext _dbContext;

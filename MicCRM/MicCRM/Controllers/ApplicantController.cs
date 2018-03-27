@@ -4,15 +4,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using MicCRM.Data;
 using MicCRM.Data.Entities;
+using MicCRM.Helpers;
 using MicCRM.Helpers.Mappers;
 using MicCRM.Models.ApplicantViewModels;
 using MicCRM.Models.StudentViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace MicCRM.Controllers
 {
+    [Authorize]
     public class ApplicantController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
@@ -22,14 +25,14 @@ namespace MicCRM.Controllers
         }
 
         public IActionResult Search(string firstName, string lastName, 
-            int lessonId, int teacherId, int technologyId)
+            int lessonId, int teacherId, int technologyId, int? page)
         {
             var applicants = _dbContext.Applicants
                             .Include(a => a.Lesson)
                                 .ThenInclude(l => l.Teacher)
                             .Include(a => a.Lesson)
                                 .ThenInclude(l => l.Technology)
-                            .Where(a => a.IsStudent == false)
+                            .Where(a => a.IsStudent == false && a.Deleted == false)
                             .OrderByDescending(a => a.Date)
                             .Select(a => a);
 
@@ -61,10 +64,13 @@ namespace MicCRM.Controllers
 
             var teachers = _dbContext.Teachers;
             var technologies = _dbContext.Technologies;
+            
+            int pageSize = 3;
+            var paginatedApplicants = PaginatedList<ApplicantInfoViewModel>.Create(applicantsIVM, page ?? 1, pageSize);
 
             ApplicantsAndLessonsViewModel model = new ApplicantsAndLessonsViewModel()
             {
-                Applicants = applicantsIVM,
+                PaginatedApplicants = paginatedApplicants,
                 Lessons = GetSelectListItem(lessons),
                 Teachers = GetSelectListItem(teachers),
                 Technologies = GetSelectListItem(technologies),
@@ -78,21 +84,28 @@ namespace MicCRM.Controllers
             return View("AllApplicants", model);
         }
 
-        public IActionResult AllApplicants()
+        public IActionResult AllApplicants(int? page)
         {
             var lessons = _dbContext.Lessons
                 .Include(l => l.Teacher)
                 .Include(l => l.Technology);
+
             var teachers = _dbContext.Teachers;
             var technologies = _dbContext.Technologies;
+
+            var applicants = GetAllApplicantIVM();
+            
+            int pageSize = 3;
+            var paginatedApplicants = PaginatedList<ApplicantInfoViewModel>.Create(applicants, page ?? 1, pageSize);
+
             ApplicantsAndLessonsViewModel model = new ApplicantsAndLessonsViewModel()
             {
-                Applicants = GetAllApplicantIVM(),
+                PaginatedApplicants = paginatedApplicants,
                 Lessons = GetSelectListItem(lessons),
                 Teachers = GetSelectListItem(teachers),
                 Technologies = GetSelectListItem(technologies)
             };
-
+            
             return View(model);
         }
 
@@ -109,7 +122,7 @@ namespace MicCRM.Controllers
                                 .ThenInclude(l => l.Teacher)
                             .Include(a => a.Lesson)
                                 .ThenInclude(l => l.Technology)
-                            .Where(a => a.IsStudent == false)
+                            .Where(a => a.IsStudent == false && a.Deleted == false)
                             .OrderByDescending(a => a.Date);
 
             List<ApplicantInfoViewModel> model = new List<ApplicantInfoViewModel>();
@@ -128,7 +141,7 @@ namespace MicCRM.Controllers
                 .Include(l => l.Technology);
             var applicant = _dbContext.Applicants
                             .Include(a => a.Lesson)
-                            .Where(a => a.IsStudent == false)
+                            .Where(a => a.IsStudent == false && a.Deleted == false)
                             .Where(a => a.Id == id)
                             .Single();
 
@@ -205,6 +218,23 @@ namespace MicCRM.Controllers
             }
 
             return tEntityToSelect;
+        }
+
+        [HttpPost]
+        public void Delete(params int[] arrayOfId)
+        {
+            if (arrayOfId.Length == 0)
+                return;
+
+            foreach (int id in arrayOfId)
+            {
+                Applicant applicant = _dbContext.Applicants
+                            .Where(a => a.Id == id)
+                            .SingleOrDefault();
+                applicant.Deleted = true;
+                _dbContext.Entry(applicant).State = EntityState.Modified;
+            }
+            _dbContext.SaveChanges();
         }
 
         [HttpPost]
