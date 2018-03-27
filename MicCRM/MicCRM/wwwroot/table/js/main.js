@@ -96,7 +96,7 @@ function getStudentLessons(source) {
 function addLesson() {
     var id = getIdSelectedRadioButton();
     var array = getIdSelectedRows();
-    if (array.length == 0 || id == null) {
+    if (array.length === 0 || id === null) {
         alert("You have not chosen a student or lesson.");
         return;
     }
@@ -109,7 +109,7 @@ function addLesson() {
         url: "/Student/AddLessonToStudent",
         dataType: "json",
         success: function (obj) {
-            if (obj == true) {
+            if (obj === true) {
                 alert("Lesson Added.");
             }
             else {
@@ -124,7 +124,7 @@ function addLesson() {
 
 function getIdSelectedRadioButton() {
     var radio = $('[name="check"]:checked');
-    if (radio.length == 0) {
+    if (radio.length === 0) {
         return;
     }
     return radio[0].id;
@@ -139,18 +139,18 @@ function toggle(source) {
 
 function makeStudent() {
     var arrayOfId = getIdSelectedRows();
-    if (arrayOfId.length == 0) {
+    if (arrayOfId.length === 0) {
         return;
     }
-    //$.ajax({
-    //    type: "post",
-    //    data: { arrayOfId },
-    //    url: "/Applicant/MakeStudent",
-    //    success: function () {
-    //        refreshApplicantsTable(arrayOfId);
-    //    }
-    //});
-    refreshApplicantsTable(arrayOfId);
+    $.ajax({
+        type: "post",
+        data: { arrayOfId },
+        url: "/Applicant/MakeStudent",
+        success: function () {
+            refreshApplicantsTable(arrayOfId);
+        }
+    });
+    //refreshApplicantsTable(arrayOfId);
 }
 
 function refreshApplicantsTable(arrayOfId) {
@@ -179,4 +179,12 @@ function getIdSelectedRows() {
         }
     }
     return id;
+}
+
+
+
+
+function getValueSelectedOption() {
+    var lessonId = $("#LessonId").val();
+    return lessonId;
 }

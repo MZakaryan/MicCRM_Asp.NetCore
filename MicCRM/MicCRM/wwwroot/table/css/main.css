@@ -54,12 +54,15 @@ ul, li {
 	list-style-type: none;
 }
 
-
+.myPos{
+    position: relative;
+    right: 60px;
+}
 /* ------------------------------------ */
 input {
-  display: block;
-	outline: none;
-	border: none !important;
+    display: block;
+    outline: none;
+    border: none !important;
 }
 
 textarea {

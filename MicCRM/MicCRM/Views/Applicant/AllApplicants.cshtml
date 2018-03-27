@@ -1,11 +1,52 @@
 ﻿@using MicCRM.Models.ApplicantViewModels
-@model IEnumerable<ApplicantInfoViewModel>
+@model ApplicantsAndLessonsViewModel
 @{
     ViewData["Title"] = "AllApplicants";
 }
 <h2 class="myh2">Applicants</h2>
 <form asp-action="Add" asp-controller="Applicant" method="get">
     <button class="btn btn-default">Add</button>
+    <button type="button" class="btn btn-default" onclick="makeStudent()">Make a Student</button>
+</form>
+<form asp-action="Search" asp-controller="Applicant" method="get">
+    <div>
+        <div class="form-group col-md-3">
+            <label>Teachers</label>
+            <select class="selection-2 form-control" asp-for="TeacherId" asp-items="(IEnumerable<SelectListItem>)Model.Teachers">
+                <option value="0">Select Teacher</option>
+            </select>
+        </div>
+        <div class="form-group col-md-3">
+            <label>Technologies</label>
+            <select class="selection-2 form-control" asp-for="TechnologyId" asp-items="(IEnumerable<SelectListItem>)Model.Technologies">
+                <option value="0">Select Teacher</option>
+            </select>
+        </div>
+    </div>
+    <div>
+        <div class="form-group col-xs-2">
+            <label>First Name:</label>
+            <input asp-for="FirstName" class="form-control" placeholder="Enter first name">
+        </div>
+        <div class="form-group col-xs-3">
+            <label>Last Name:</label>
+            <input asp-for="LastName" class="form-control" placeholder="Enter last name">
+        </div>
+        <div class="form-group col-md-1">
+            <label>Search</label>
+            <button class="btn btn-default">
+                <img style="height:20px" src="~/images/icons/search.png" alt="search" />
+            </button>
+        </div>
+        <div>
+            <div class="form-group col-md-6">
+                <label>Lessons</label>
+                <select class="selection-2 form-control" asp-for="LessonId" asp-items="(IEnumerable<SelectListItem>)Model.Lessons">
+                    <option value="0">Select Lesson</option>
+                </select>
+            </div>
+        </div>
+    </div>
 </form>
 <div class="limiter">
     <div class="container-table100">
@@ -35,8 +76,6 @@
 
     </div>
 </div>
-
-<button class="btn btn-default" onclick="makeStudent()">Make a Student</button>
 
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">

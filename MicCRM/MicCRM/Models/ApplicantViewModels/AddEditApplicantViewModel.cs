@@ -9,7 +9,7 @@ namespace MicCRM.Models.ApplicantViewModels
 {
     public class AddEditApplicantViewModel
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
         [Required]
         public string FirstName { get; set; }
         [Required]
@@ -22,7 +22,7 @@ namespace MicCRM.Models.ApplicantViewModels
         [Required]
         public DateTime Date { get; set; }
         public string Description { get; set; }
-        public IEnumerable<SelectListItem> Lesssons { get; set; }
+        public IEnumerable<SelectListItem> Lessons { get; set; }
 
         public int LessonId { get; set; }
     }

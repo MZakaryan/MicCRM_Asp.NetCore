@@ -21,10 +21,79 @@ namespace MicCRM.Controllers
             _dbContext = dbContext;
         }
 
+        public IActionResult Search(string firstName, string lastName, 
+            int lessonId, int teacherId, int technologyId)
+        {
+            var applicants = _dbContext.Applicants
+                            .Include(a => a.Lesson)
+                                .ThenInclude(l => l.Teacher)
+                            .Include(a => a.Lesson)
+                                .ThenInclude(l => l.Technology)
+                            .Where(a => a.IsStudent == false)
+                            .OrderByDescending(a => a.Date)
+                            .Select(a => a);
+
+            if (!string.IsNullOrEmpty(firstName))
+                applicants = applicants
+                    .Where(a => a.FirstName.Contains(firstName));
+            if (!string.IsNullOrEmpty(lastName))
+                applicants = applicants
+                    .Where(a => a.LastName.Contains(lastName));
+            if (lessonId != 0)
+                applicants = applicants
+                    .Where(a => a.Lesson.Id == lessonId);
+            if (teacherId != 0)
+                applicants = applicants
+                    .Where(a => a.Lesson.TeacherId == teacherId);
+            if (technologyId != 0)
+                applicants = applicants
+                    .Where(a => a.Lesson.TechnologyId == technologyId);
+
+            List<ApplicantInfoViewModel> applicantsIVM = new List<ApplicantInfoViewModel>();
+            foreach (var item in applicants)
+            {
+                applicantsIVM.Add(ApplicantMapper.Mapping(item));
+            }
+
+            var lessons = _dbContext.Lessons
+                .Include(l => l.Teacher)
+                .Include(l => l.Technology);
+
+            var teachers = _dbContext.Teachers;
+            var technologies = _dbContext.Technologies;
+
+            ApplicantsAndLessonsViewModel model = new ApplicantsAndLessonsViewModel()
+            {
+                Applicants = applicantsIVM,
+                Lessons = GetSelectListItem(lessons),
+                Teachers = GetSelectListItem(teachers),
+                Technologies = GetSelectListItem(technologies),
+                FirstName = firstName,
+                LastName = lastName,
+                LessonId = lessonId,
+                TeacherId = teacherId,
+                TechnologyId = technologyId
+            };
+
+            return View("AllApplicants", model);
+        }
 
         public IActionResult AllApplicants()
         {
-            return View(GetAllApplicantIVM());
+            var lessons = _dbContext.Lessons
+                .Include(l => l.Teacher)
+                .Include(l => l.Technology);
+            var teachers = _dbContext.Teachers;
+            var technologies = _dbContext.Technologies;
+            ApplicantsAndLessonsViewModel model = new ApplicantsAndLessonsViewModel()
+            {
+                Applicants = GetAllApplicantIVM(),
+                Lessons = GetSelectListItem(lessons),
+                Teachers = GetSelectListItem(teachers),
+                Technologies = GetSelectListItem(technologies)
+            };
+
+            return View(model);
         }
 
         public IActionResult GetApplicantsForPartial()
@@ -33,7 +102,7 @@ namespace MicCRM.Controllers
         }
 
         [NonAction]
-        private List<ApplicantInfoViewModel> GetAllApplicantIVM()
+        private IEnumerable<ApplicantInfoViewModel> GetAllApplicantIVM()
         {
             var applicants = _dbContext.Applicants
                             .Include(a => a.Lesson)
@@ -52,6 +121,33 @@ namespace MicCRM.Controllers
             return model;
         }
 
+        public IActionResult Edit(int id)
+        {
+            var lessons = _dbContext.Lessons
+                .Include(l => l.Teacher)
+                .Include(l => l.Technology);
+            var applicant = _dbContext.Applicants
+                            .Include(a => a.Lesson)
+                            .Where(a => a.IsStudent == false)
+                            .Where(a => a.Id == id)
+                            .Single();
+
+            AddEditApplicantViewModel model = new AddEditApplicantViewModel()
+            {
+                Id = id,
+                FirstName = applicant.FirstName,
+                LastName = applicant.LastName,
+                Email = applicant.Email,
+                Phone1 = applicant.Phone1,
+                Phone2 = applicant.Phone2,
+                Date = applicant.Date,
+                LessonId = applicant.Lesson.Id,
+                Description = applicant.Description,
+                Lessons = GetSelectListItem(lessons)
+            };
+            return View("Add", model);
+        }
+
         [HttpGet]
         public IActionResult Add()
         {
@@ -61,7 +157,7 @@ namespace MicCRM.Controllers
 
             AddEditApplicantViewModel model = new AddEditApplicantViewModel()
             {
-                Lesssons = GetSelectListItem(lessons)
+                Lessons = GetSelectListItem(lessons)
             };
             return View(model);
         }
@@ -73,6 +169,7 @@ namespace MicCRM.Controllers
             {
                 Applicant applicant = new Applicant()
                 {
+                    Id = model.Id,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Email = model.Email,
@@ -82,7 +179,9 @@ namespace MicCRM.Controllers
                     Description = model.Description,
                     Lesson = _dbContext.Lessons.Find(model.LessonId),
                 };
-                _dbContext.Applicants.Add(applicant);
+                _dbContext.Entry(applicant).State = applicant.Id == 0 ?
+                                   EntityState.Added :
+                                   EntityState.Modified;
                 _dbContext.SaveChanges();
 
                 return RedirectToAction(nameof(AllApplicants));
@@ -91,21 +190,21 @@ namespace MicCRM.Controllers
         }
 
         [NonAction]
-        private IEnumerable<SelectListItem> GetSelectListItem(
-            IEnumerable<Lesson> lessons)
+        private IEnumerable<SelectListItem> GetSelectListItem<TEntity>(IEnumerable<TEntity> tEntity)
+            where TEntity : EntityBase
         {
-            List<SelectListItem> lessonsToSelect = new List<SelectListItem>();
+            List<SelectListItem> tEntityToSelect = new List<SelectListItem>();
 
-            foreach (Lesson item in lessons)
+            foreach (TEntity item in tEntity)
             {
-                lessonsToSelect.Add(new SelectListItem()
+                tEntityToSelect.Add(new SelectListItem()
                 {
                     Value = item.Id.ToString(),
                     Text = item.ToString()
                 });
             }
 
-            return lessonsToSelect;
+            return tEntityToSelect;
         }
 
         [HttpPost]
@@ -133,6 +232,7 @@ namespace MicCRM.Controllers
             Student student = new Student()
             {
                 ApplicantId = applicant.Id,
+                Description = applicant.Description
             };
 
             StudentLessons studentLessons = new StudentLessons()

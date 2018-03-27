@@ -1,12 +1,12 @@
 ﻿@using MicCRM.Models.ApplicantViewModels
-@model IEnumerable<ApplicantInfoViewModel>
+@model ApplicantsAndLessonsViewModel
 @{
     int index = 1;
     Layout = null;
 }
 
 
-@foreach (var item in Model)
+@foreach (var item in Model.Applicants)
 {
     <tr class="row100" id="@item.Id">
         <td class="column100 column1" data-column="column1">
@@ -23,7 +23,7 @@
             <button onclick="getApplicantLesson(this)" data-toggle="modal" data-target="#myModal" id="@item.Lesson.Id">Lesson</button>
         </td>
         <td class="column100 column10" data-column="column10">
-            <a href="#">Edit</a>
+            <a href="/Applicant/Edit?id=@item.Id">Edit</a>
         </td>
     </tr>
     index++;
