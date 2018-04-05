@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MicCRM.Data;
 using MicCRM.Data.Entities;
+using MicCRM.Helpers;
 using MicCRM.Helpers.Mappers;
 using MicCRM.Models.LessonViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -63,8 +64,8 @@ namespace MicCRM.Controllers
 
             AddEditLessonViewModel model = new AddEditLessonViewModel()
             {
-                Technologies = SelectListItem(technologies),
-                Teachers = SelectListItem(teachers)
+                Technologies = Utilities.GetSelectListItem(technologies),
+                Teachers = Utilities.GetSelectListItem(teachers)
             };
 
             return View(model);
@@ -90,22 +91,5 @@ namespace MicCRM.Controllers
             return View();
         }
         
-        [NonAction]
-        private IEnumerable<SelectListItem> SelectListItem<TEntity>(IEnumerable<TEntity> tEntity) 
-            where TEntity : EntityBase
-        {
-            List<SelectListItem> tEntityToSelect = new List<SelectListItem>();
-
-            foreach (TEntity item in tEntity)
-            {
-                tEntityToSelect.Add(new SelectListItem()
-                {
-                    Value = item.Id.ToString(),
-                    Text = item.ToString()
-                });
-            }
-
-            return tEntityToSelect;
-        }
     }
 }

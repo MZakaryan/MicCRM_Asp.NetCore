@@ -23,24 +23,12 @@
   
     /*==================================================================
     [ Validate ]*/
-
-    var techName = $('.validate-input input[name="Name"]');
-
-    $('.validate-form').on('submit', function () {
-        var check = true;
-
-        if ($(techName).val().trim() == '') {
-            showValidate(techName);
-            check = false;
-        }
-        return check;
-    });
-
+    
     var name = $('.validate-input input[name="FirstName"]');
     var surname = $('.validate-input input[name="LastName"]');
     var email = $('.validate-input input[name="Email"]');
     var phone = $('.validate-input input[name="Phone1"]');
-
+    var techName = $('validate-input input[name="Name"]');
 
     $('.validate-form').on('submit',function(){
         var check = true;
@@ -68,7 +56,6 @@
         return check;
     });
 
-
     $('.validate-form .input100').each(function(){
         $(this).focus(function(){
            hideValidate(this);
@@ -87,6 +74,4 @@
         $(thisAlert).removeClass('alert-validate');
     }
     
-    
-
 })(jQuery);

@@ -65,15 +65,15 @@ namespace MicCRM.Controllers
             var teachers = _dbContext.Teachers;
             var technologies = _dbContext.Technologies;
             
-            int pageSize = 3;
+            int pageSize = 15;
             var paginatedApplicants = PaginatedList<ApplicantInfoViewModel>.Create(applicantsIVM, page ?? 1, pageSize);
 
             ApplicantsAndLessonsViewModel model = new ApplicantsAndLessonsViewModel()
             {
                 PaginatedApplicants = paginatedApplicants,
-                Lessons = GetSelectListItem(lessons),
-                Teachers = GetSelectListItem(teachers),
-                Technologies = GetSelectListItem(technologies),
+                Lessons = Utilities.GetSelectListItem(lessons),
+                Teachers = Utilities.GetSelectListItem(teachers),
+                Technologies = Utilities.GetSelectListItem(technologies),
                 FirstName = firstName,
                 LastName = lastName,
                 LessonId = lessonId,
@@ -95,15 +95,15 @@ namespace MicCRM.Controllers
 
             var applicants = GetAllApplicantIVM();
             
-            int pageSize = 3;
+            int pageSize = 15;
             var paginatedApplicants = PaginatedList<ApplicantInfoViewModel>.Create(applicants, page ?? 1, pageSize);
 
             ApplicantsAndLessonsViewModel model = new ApplicantsAndLessonsViewModel()
             {
                 PaginatedApplicants = paginatedApplicants,
-                Lessons = GetSelectListItem(lessons),
-                Teachers = GetSelectListItem(teachers),
-                Technologies = GetSelectListItem(technologies)
+                Lessons = Utilities.GetSelectListItem(lessons),
+                Teachers = Utilities.GetSelectListItem(teachers),
+                Technologies = Utilities.GetSelectListItem(technologies)
             };
             
             return View(model);
@@ -156,7 +156,7 @@ namespace MicCRM.Controllers
                 Date = applicant.Date,
                 LessonId = applicant.Lesson.Id,
                 Description = applicant.Description,
-                Lessons = GetSelectListItem(lessons)
+                Lessons = Utilities.GetSelectListItem(lessons)
             };
             return View("Add", model);
         }
@@ -170,7 +170,7 @@ namespace MicCRM.Controllers
 
             AddEditApplicantViewModel model = new AddEditApplicantViewModel()
             {
-                Lessons = GetSelectListItem(lessons)
+                Lessons = Utilities.GetSelectListItem(lessons)
             };
             return View(model);
         }
@@ -200,24 +200,6 @@ namespace MicCRM.Controllers
                 return RedirectToAction(nameof(AllApplicants));
             }
             return View();
-        }
-
-        [NonAction]
-        private IEnumerable<SelectListItem> GetSelectListItem<TEntity>(IEnumerable<TEntity> tEntity)
-            where TEntity : EntityBase
-        {
-            List<SelectListItem> tEntityToSelect = new List<SelectListItem>();
-
-            foreach (TEntity item in tEntity)
-            {
-                tEntityToSelect.Add(new SelectListItem()
-                {
-                    Value = item.Id.ToString(),
-                    Text = item.ToString()
-                });
-            }
-
-            return tEntityToSelect;
         }
 
         [HttpPost]

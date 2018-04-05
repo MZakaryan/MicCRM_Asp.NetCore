@@ -7,7 +7,6 @@ namespace MicCRM.Models.ApplicantViewModels
 {
     public class ApplicantsAndLessonsViewModel
     {
-        //public IEnumerable<ApplicantInfoViewModel> Applicants { get; set; }
         public IEnumerable<SelectListItem> Lessons { get; set; }
         public IEnumerable<SelectListItem> Teachers { get; set; }
         public IEnumerable<SelectListItem> Technologies { get; set; }
@@ -16,6 +15,7 @@ namespace MicCRM.Models.ApplicantViewModels
         public int LessonId { get; set; }
         public int TeacherId { get; set; }
         public int TechnologyId { get; set; }
+        public int? PageIndex { get; set; }
         public PaginatedList<ApplicantInfoViewModel> PaginatedApplicants { get; set; }
     }
 }
