@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MicCRM.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class LessonController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
