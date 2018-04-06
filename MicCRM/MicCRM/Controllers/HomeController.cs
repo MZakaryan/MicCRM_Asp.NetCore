@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MicCRM.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class HomeController : Controller
     {
         public IActionResult Index()
