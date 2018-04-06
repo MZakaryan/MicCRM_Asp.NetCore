@@ -41,7 +41,7 @@ namespace MicCRM.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadExcel(ApplicantExcelUploadViewModel model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && model.LessonId > 0)
             {
                 if (model.ExcelFile == null || model.ExcelFile.Length == 0)
                     return Content("file not selected");
@@ -152,7 +152,7 @@ namespace MicCRM.Controllers
                 }
                 finally
                 {
-
+                    System.IO.File.Delete(filePath);
                 }
                 _dbContext.Applicants.AddRange(applicantList);
                 _dbContext.SaveChanges();

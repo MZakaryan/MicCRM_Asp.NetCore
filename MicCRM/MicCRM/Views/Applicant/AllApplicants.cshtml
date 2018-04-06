@@ -21,7 +21,7 @@
         </div>
     </div>
 </form>
-<form asp-action="Search" asp-controller="Applicant" method="get">
+<form asp-action="AllApplicants" asp-controller="Applicant" method="get">
     <div>
         <div class="form-group col-md-3">
             <label>Teachers</label>
@@ -60,50 +60,58 @@
             </div>
         </div>
     </div>
-</form>
-<div class="limiter">
-    <div class="container-table100">
-        <div class="table100 ver2 m-b-110">
-            <table data-vertable="ver2">
-                <thead>
-                    <tr class="row100 head">
-                        <th class="column100 column1" data-column="column1">
-                            <input type="checkbox" onClick="toggle(this)">
-                        </th>
-                        <th class="column100 column2" data-column="column2">First Name</th>
-                        <th class="column100 column3" data-column="column3">Last Name</th>
-                        <th class="column100 column4" data-column="column4">Phone Number</th>
-                        <th class="column100 column5" data-column="column5">Phone Number</th>
-                        <th class="column100 column6" data-column="column6">Email</th>
-                        <th class="column100 column7" data-column="column7">Date</th>
-                        <th class="column100 column8" data-column="column8">Description</th>
-                        <th class="column100 column9" data-column="column9">Lesson</th>
-                        <th class="column100 column10" data-column="column10">Edit</th>
-                    </tr>
-                </thead>
-                <tbody class="myTbody">
-                    @Html.Partial("_ApplicantTablePartial", Model.PaginatedApplicants)
-                </tbody>
-            </table>
-            @{
-                var prevDisabled = !Model.PaginatedApplicants.HasPreviousPage ? "disabled" : "";
-                var nextDisabled = !Model.PaginatedApplicants.HasNextPage ? "disabled" : "";
-            }
-            <a asp-action="AllApplicants"
-               asp-route-page="@(Model.PaginatedApplicants.PageIndex - 1)"
-               class="btn btn-default @prevDisabled">
-                Previous
-            </a>
-            <a asp-action="AllApplicants"
-               asp-route-page="@(Model.PaginatedApplicants.PageIndex + 1)"
-               class="btn btn-default @nextDisabled">
-                Next
-            </a>
+
+    <div class="limiter">
+        <div class="container-table100">
+            <div class="table100 ver2 m-b-110">
+                <table data-vertable="ver2">
+                    <thead>
+                        <tr class="row100 head">
+                            <th class="column100 column1" data-column="column1">
+                                <input type="checkbox" onClick="toggle(this)">
+                            </th>
+                            <th class="column100 column2" data-column="column2">First Name</th>
+                            <th class="column100 column3" data-column="column3">Last Name</th>
+                            <th class="column100 column4" data-column="column4">Phone Number</th>
+                            <th class="column100 column5" data-column="column5">Phone Number</th>
+                            <th class="column100 column6" data-column="column6">Email</th>
+                            <th class="column100 column7" data-column="column7">Date</th>
+                            <th class="column100 column8" data-column="column8">Description</th>
+                            <th class="column100 column9" data-column="column9">Lesson</th>
+                            <th class="column100 column10" data-column="column10">Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody class="myTbody">
+                        @Html.Partial("_ApplicantTablePartial", Model.PaginatedApplicants)
+                    </tbody>
+                </table>
+                @{
+                    var prevDisabled = !Model.PaginatedApplicants.HasPreviousPage ? "disabled" : "";
+                    var nextDisabled = !Model.PaginatedApplicants.HasNextPage ? "disabled" : "";
+                }
+                @*<button asp-route-page="@Model.PaginatedApplicants.PageIndex - 1"
+                        class="btn btn-default @prevDisabled">
+                    Previous
+                </button>*@
+                <a asp-action="AllApplicants"
+                       asp-route-page="@(Model.PaginatedApplicants.PageIndex - 1)"
+                       class="btn btn-default @prevDisabled">
+                        Previous
+                    </a>
+                <a asp-action="AllApplicants"
+                   asp-route-page="@(Model.PaginatedApplicants.PageIndex + 1)"
+                   class="btn btn-default @nextDisabled">
+                    Next
+                </a>
+                @*<button asp-route-page="@Model.PaginatedApplicants.PageIndex + 1"
+                        class="btn btn-default @nextDisabled">
+                    Next
+                </button>*@
+            </div>
+
         </div>
-
     </div>
-</div>
-
+</form>
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
 

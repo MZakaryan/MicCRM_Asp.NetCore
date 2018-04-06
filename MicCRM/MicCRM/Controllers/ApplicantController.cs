@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MicCRM.Data;
 using MicCRM.Data.Entities;
+using MicCRM.Extensions;
 using MicCRM.Helpers;
 using MicCRM.Helpers.Mappers;
 using MicCRM.Models.ApplicantViewModels;
@@ -23,126 +24,59 @@ namespace MicCRM.Controllers
         {
             _dbContext = dbContext;
         }
-
-        public IActionResult Search(string firstName, string lastName, 
-            int lessonId, int teacherId, int technologyId, int? page)
-        {
-            var applicants = _dbContext.Applicants
-                            .Include(a => a.Lesson)
-                                .ThenInclude(l => l.Teacher)
-                            .Include(a => a.Lesson)
-                                .ThenInclude(l => l.Technology)
-                            .Where(a => a.IsStudent == false && a.Deleted == false)
-                            .OrderByDescending(a => a.Date)
-                            .Select(a => a);
-
-            if (!string.IsNullOrEmpty(firstName))
-                applicants = applicants
-                    .Where(a => a.FirstName.Contains(firstName));
-            if (!string.IsNullOrEmpty(lastName))
-                applicants = applicants
-                    .Where(a => a.LastName.Contains(lastName));
-            if (lessonId != 0)
-                applicants = applicants
-                    .Where(a => a.Lesson.Id == lessonId);
-            if (teacherId != 0)
-                applicants = applicants
-                    .Where(a => a.Lesson.TeacherId == teacherId);
-            if (technologyId != 0)
-                applicants = applicants
-                    .Where(a => a.Lesson.TechnologyId == technologyId);
-
-            List<ApplicantInfoViewModel> applicantsIVM = new List<ApplicantInfoViewModel>();
-            foreach (var item in applicants)
-            {
-                applicantsIVM.Add(ApplicantMapper.Mapping(item));
-            }
-
-            var lessons = _dbContext.Lessons
-                .Include(l => l.Teacher)
-                .Include(l => l.Technology);
-
-            var teachers = _dbContext.Teachers;
-            var technologies = _dbContext.Technologies;
-            
-            int pageSize = 15;
-            var paginatedApplicants = PaginatedList<ApplicantInfoViewModel>.Create(applicantsIVM, page ?? 1, pageSize);
-
-            ApplicantsAndLessonsViewModel model = new ApplicantsAndLessonsViewModel()
-            {
-                PaginatedApplicants = paginatedApplicants,
-                Lessons = Utilities.GetSelectListItem(lessons),
-                Teachers = Utilities.GetSelectListItem(teachers),
-                Technologies = Utilities.GetSelectListItem(technologies),
-                FirstName = firstName,
-                LastName = lastName,
-                LessonId = lessonId,
-                TeacherId = teacherId,
-                TechnologyId = technologyId
-            };
-
-            return View("AllApplicants", model);
-        }
-
-        public IActionResult AllApplicants(int? page)
-        {
-            var lessons = _dbContext.Lessons
-                .Include(l => l.Teacher)
-                .Include(l => l.Technology);
-
-            var teachers = _dbContext.Teachers;
-            var technologies = _dbContext.Technologies;
-
-            var applicants = GetAllApplicantIVM();
-            
-            int pageSize = 15;
-            var paginatedApplicants = PaginatedList<ApplicantInfoViewModel>.Create(applicants, page ?? 1, pageSize);
-
-            ApplicantsAndLessonsViewModel model = new ApplicantsAndLessonsViewModel()
-            {
-                PaginatedApplicants = paginatedApplicants,
-                Lessons = Utilities.GetSelectListItem(lessons),
-                Teachers = Utilities.GetSelectListItem(teachers),
-                Technologies = Utilities.GetSelectListItem(technologies)
-            };
-            
-            return View(model);
-        }
-
-        public IActionResult GetApplicantsForPartial()
-        {
-            return View("_ApplicantTablePartial", GetAllApplicantIVM());
-        }
-
+        
         [NonAction]
-        private IEnumerable<ApplicantInfoViewModel> GetAllApplicantIVM()
+        public ApplicantsAndLessonsViewModel Search(ApplicantSerachViewModel searchModel, int? page)
         {
-            var applicants = _dbContext.Applicants
-                            .Include(a => a.Lesson)
-                                .ThenInclude(l => l.Teacher)
-                            .Include(a => a.Lesson)
-                                .ThenInclude(l => l.Technology)
-                            .Where(a => a.IsStudent == false && a.Deleted == false)
-                            .OrderByDescending(a => a.Date);
+            var lessons = _dbContext.Lessons
+                .Include(l => l.Teacher)
+                .Include(l => l.Technology);
 
-            List<ApplicantInfoViewModel> model = new List<ApplicantInfoViewModel>();
-            foreach (var item in applicants)
-            {
-                model.Add(ApplicantMapper.Mapping(item));
-            }
+            var teachers = _dbContext.Teachers;
+            var technologies = _dbContext.Technologies;
+
+            var applicants = _dbContext.GetApplicants();
+
+            List<ApplicantInfoViewModel> applicantsIVM = applicants
+                                                            .Filter(searchModel)
+                                                            .GetAllApplicantIVM();
+            
+            int pageSize = 15;
+            var paginatedApplicants = PaginatedList<ApplicantInfoViewModel>.Create(
+                applicantsIVM, page ?? 1, pageSize);
+
+            ApplicantsAndLessonsViewModel model = ApplicantMapper.Mapping(
+                paginatedApplicants, lessons, teachers, technologies,
+                searchModel.FirstName, searchModel.LastName, searchModel.LessonId, 
+                searchModel.TeacherId, searchModel.TechnologyId, page);
 
             return model;
         }
 
+        [HttpGet]
+        public IActionResult AllApplicants(string firstName, string lastName,
+            int lessonId, int teacherId, int technologyId, int? page)
+        {
+            ApplicantSerachViewModel searchModel = 
+                ApplicantMapper.Mapping(firstName, lastName,lessonId, teacherId, technologyId);
+
+            ApplicantsAndLessonsViewModel model = Search(searchModel, page);
+
+            return View(model);
+        }
+
+        [HttpGet]
         public IActionResult Edit(int id)
         {
             var lessons = _dbContext.Lessons
                 .Include(l => l.Teacher)
                 .Include(l => l.Technology);
             var applicant = _dbContext.Applicants
-                            .Include(a => a.Lesson)
-                            .Where(a => a.IsStudent == false && a.Deleted == false)
-                            .Where(a => a.Id == id)
+                                .Include(a => a.Lesson)
+                            .Where(a => 
+                                a.IsStudent == false && 
+                                a.Deleted == false && 
+                                a.Id == id)
                             .Single();
 
             AddEditApplicantViewModel model = new AddEditApplicantViewModel()
