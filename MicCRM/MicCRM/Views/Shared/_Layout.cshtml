@@ -44,7 +44,7 @@
                     <li><a asp-controller="Lesson" asp-action="AllLessons">Lessons</a></li>
                     <li><a asp-controller="Teacher" asp-action="AllTeachers">Teachers</a></li>
                     <li><a asp-controller="Technology" asp-action="AllTechnologies">Technologies</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a asp-controller="Home" asp-action="About">About</a></li>
 
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
@@ -69,6 +69,12 @@
         <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
         <script src="~/lib/select2/select2.min.js"></script>
         <script src="~/table/js/main.js"></script>
+
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.0.min.js"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+
+
     </environment>
 
 

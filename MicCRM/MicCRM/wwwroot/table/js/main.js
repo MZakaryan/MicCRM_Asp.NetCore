@@ -99,6 +99,27 @@ function getStudentLessons(source) {
     });
 }
 
+function getNotData(source) {
+    $.ajax({
+        type: "GET",
+        data: { id: source.id },
+        url: "/Home/GetNotification",
+        dataType: "json",
+        success: function (obj) {
+            $('#myModal .modal-body tbody').empty();
+            for (var i = 0; i < obj.length; i++) {
+                $('#myModal .modal-body tbody').append(
+                    "<tr>" +
+                    "<td>" + obj[i].technology + "</td>" +
+                    "<td>" + obj[i].phone2 + "</td>" +
+                    "<td>" + obj[i].email + "</td>" +
+                    "</tr>"
+                );
+            }
+        }
+    });
+}
+
 function addLesson() {
     var id = getIdSelectedRadioButton();
     var array = getIdSelectedRows();
@@ -153,10 +174,26 @@ function deleteApplicants() {
         data: { arrayOfId },
         url: "/Applicant/Delete",
         success: function () {
-            refreshApplicantsTable(arrayOfId);
+            refreshTable(arrayOfId);
         }
     });
-    //refreshApplicantsTable(arrayOfId);
+    //refreshTable(arrayOfId);
+}
+
+function muteNotification() {
+    var arrayOfId = getIdSelectedRows();
+    if (arrayOfId.length === 0) {
+        return;
+    }
+    $.ajax({
+        type: "post",
+        data: { arrayOfId },
+        url: "/Home/MuteNotification",
+        success: function () {
+            refreshTable(arrayOfId);
+        }
+    });
+    //refreshTable(arrayOfId);
 }
 
 function makeStudent() {
@@ -169,13 +206,13 @@ function makeStudent() {
         data: { arrayOfId },
         url: "/Applicant/MakeStudent",
         success: function () {
-            refreshApplicantsTable(arrayOfId);
+            refreshTable(arrayOfId);
         }
     });
-    //refreshApplicantsTable(arrayOfId);
+    //refreshTable(arrayOfId);
 }
 
-function refreshApplicantsTable(arrayOfId) {
+function refreshTable(arrayOfId) {
     for (var i = 0; i < arrayOfId.length; i++) {
         $("tr").remove('#' + arrayOfId[i]);
     }

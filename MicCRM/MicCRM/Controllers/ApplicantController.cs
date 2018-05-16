@@ -16,7 +16,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MicCRM.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ApplicantController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
@@ -52,7 +52,7 @@ namespace MicCRM.Controllers
 
             return model;
         }
-
+        
         [HttpGet]
         public IActionResult AllApplicants(string firstName, string lastName,
             int lessonId, int teacherId, int technologyId, int? page)
@@ -180,7 +180,6 @@ namespace MicCRM.Controllers
                 ApplicantId = applicant.Id,
                 Description = applicant.Description
             };
-
             StudentLessons studentLessons = new StudentLessons()
             {
                 Student = student,

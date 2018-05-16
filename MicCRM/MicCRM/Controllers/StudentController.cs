@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MicCRM.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class StudentController : Controller
     {
         private readonly ApplicationDbContext _dbContex;

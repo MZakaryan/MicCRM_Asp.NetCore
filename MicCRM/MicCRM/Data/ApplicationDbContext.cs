@@ -39,6 +39,7 @@ namespace MicCRM.Data
         public virtual DbSet<Lesson> Lessons { get; set; }
         public virtual DbSet<Technology> Technologies { get; set; }
         public virtual DbSet<Student> Students { get; set; }
+        public virtual DbSet<Notification> Notifications { get; set; }
 
     }
 }

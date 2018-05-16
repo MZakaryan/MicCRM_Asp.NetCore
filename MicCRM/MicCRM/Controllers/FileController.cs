@@ -158,7 +158,7 @@ namespace MicCRM.Controllers
                 _dbContext.SaveChanges();
                 return RedirectToAction("AllApplicants", "Applicant");
             }
-
+            
             return RedirectToAction("UploadExcel");
         }
     }

@@ -26,7 +26,7 @@
             <button type="button" onclick="getApplicantLesson(this)" data-toggle="modal" data-target="#myModal" id="@item.Lesson.Id">Lesson</button>
         </td>
         <td class="column100 column10" data-column="column10">
-            <a href="/Applicant/Edit?id=@item.Id">Edit</a>
+            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
         </td>
     </tr>
     index++;

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MicCRM.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class TechnologyController : Controller
     {
         private readonly ApplicationDbContext _dbContext;

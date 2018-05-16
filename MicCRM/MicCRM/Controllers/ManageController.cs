@@ -17,7 +17,7 @@ using MicCRM.Data.Entities;
 
 namespace MicCRM.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("[controller]/[action]")]
     public class ManageController : Controller
     {
