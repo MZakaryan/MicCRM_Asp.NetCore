@@ -6,40 +6,44 @@
 
 
 <h2 class="myh2">Students</h2>
+<button onclick="getLessons()" class="btn btn-default" 
+        data-toggle="modal" data-target="#addLessonModal">
+    Add Lesson
+</button>
 <div class="limiter">
     <div class="container-table100 myPos">
         <div class="table100 ver2 m-b-110 myClass">
-            <table data-vertable="ver2">
-                <thead>
-                    <tr class="row100 head">
-                        <th class="column100 column1" data-column="column1">
-                            <input type="checkbox" onClick="toggle(this)">
-                        </th>
-                        <th class="column100 column2" data-column="column2">First Name</th>
-                        <th class="column100 column3" data-column="column3">Last Name</th>
-                        <th class="column100 column4" data-column="column4">Phone Number</th>
-                        <th class="column100 column5" data-column="column5">Phone Number</th>
-                        <th class="column100 column6" data-column="column6">Email</th>
-                        <th class="column100 column7" data-column="column7">Date</th>
-                        <th class="column100 column8" data-column="column8">Description</th>
-                        <th class="column100 column9" data-column="column9">X</th>
-                        <th class="column100 column10" data-column="column10">Y</th>
-                        <th class="column100 column11" data-column="column11">Z</th>
-                        <th class="column100 column12" data-column="column12">Lessons</th>
-                        <th class="column100 column13" data-column="column13">Edit</th>
+            <div class="col-md-12 tableHor stdTableHor">
+                <table data-vertable="ver2">
+                    <thead>
+                        <tr class="row100 head">
+                            <th class="column100 column1" data-column="column1">
+                                <input type="checkbox" onClick="toggle(this)">
+                            </th>
+                            <th class="column100 column2" data-column="column2">First Name</th>
+                            <th class="column100 column3" data-column="column3">Last Name</th>
+                            <th class="column100 column4" data-column="column4">Phone Number</th>
+                            <th class="column100 column5" data-column="column5">Phone Number</th>
+                            <th class="column100 column6" data-column="column6">Email</th>
+                            <th class="column100 column7" data-column="column7">Date</th>
+                            <th class="column100 column8" data-column="column8">Description</th>
+                            <th class="column100 column9" data-column="column9">X</th>
+                            <th class="column100 column10" data-column="column10">Y</th>
+                            <th class="column100 column11" data-column="column11">Z</th>
+                            <th class="column100 column12" data-column="column12">Lessons</th>
+                            <th class="column100 column13" data-column="column13">Edit</th>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    @Html.Partial("_StudentTablePartial")
-                </tbody>
-            </table>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @Html.Partial("_StudentTablePartial")
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div>
 </div>
-
-<button onclick="getLessons()" class="btn btn-default" data-toggle="modal" data-target="#addLessonModal">Add Lesson</button>
 
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">

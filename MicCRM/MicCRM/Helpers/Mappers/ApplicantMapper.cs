@@ -33,7 +33,7 @@ namespace MicCRM.Helpers.Mappers
             IEnumerable<Lesson> lessons, IEnumerable<Teacher> teachers,
             IEnumerable<Technology> technologies,
             string firstName, string lastName,int lessonId, int teacherId, int technologyId,
-            int? page)
+            int page)
         {
             ApplicantsAndLessonsViewModel model = new ApplicantsAndLessonsViewModel()
             {

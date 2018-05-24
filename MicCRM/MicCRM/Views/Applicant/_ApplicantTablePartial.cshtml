@@ -1,33 +1,66 @@
 ﻿@using MicCRM.Helpers
 @using MicCRM.Models.ApplicantViewModels
-@model PaginatedList<ApplicantInfoViewModel>
+@model ApplicantsAndLessonsViewModel
 @{
-    int index = 1;
     Layout = null;
 }
+<div class="tableHor col-md-12">
+    <table data-vertable="ver2">
+        <thead>
+            <tr class="row100 head">
+                <th class="column100 column1" data-column="column1">
+                    <input type="checkbox" onClick="toggle(this)">
+                </th>
+                <th class="column100 column2" data-column="column2">First Name</th>
+                <th class="column100 column3" data-column="column3">Last Name</th>
+                <th class="column100 column4" data-column="column4">Phone Number</th>
+                <th class="column100 column5" data-column="column5">Phone Number</th>
+                <th class="column100 column6" data-column="column6">Email</th>
+                <th class="column100 column7" data-column="column7">Date</th>
+                <th class="column100 column8" data-column="column8">Description</th>
+                <th class="column100 column9" data-column="column9">Lesson</th>
+                <th class="column100 column10" data-column="column10">Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.PaginatedApplicants)
+            {
+                <tr class="row100" id="@item.Id">
+                    <td class="column100 column1" data-column="column1">
+                        <input id="@item.Id" asp-for="@item.IsStudent" name="app">
+                    </td>
+                    <td class="column100 column2" data-column="column2">@item.FirstName</td>
+                    <td class="column100 column3" data-column="column3">@item.LastName</td>
+                    <td class="column100 column4" data-column="column4">@item.Phone1</td>
+                    <td class="column100 column5" data-column="column5">@item.Phone2</td>
+                    <td class="column100 column6" data-column="column6">@item.Email</td>
+                    <td class="column100 column7" data-column="column7">@item.Date.ToShortDateString()</td>
+                    <td class="column100 column8" data-column="column8">
+                        <button type="button" onclick="getApplicantDescription(this)" data-toggle="modal" data-target="#descriptionModal" value="@item.Description">View</button>
+                    </td>
+                    <td class="column100 column9" data-column="column9">
+                        <button type="button" onclick="getApplicantLesson(this)" data-toggle="modal" data-target="#myModal" id="@item.Lesson.Id">Lesson</button>
+                    </td>
+                    <td class="column100 column10" data-column="column10">
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="col-md-12">
+    @{
+        var prevDisabled = !Model.PaginatedApplicants.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.PaginatedApplicants.HasNextPage ? "disabled" : "";
+    }
 
-
-@foreach (var item in Model)
-{
-    <tr class="row100" id="@item.Id">
-        <td class="column100 column1" data-column="column1">
-            <input id="@item.Id" asp-for="@item.IsStudent" name="app">
-        </td>
-        <td class="column100 column2" data-column="column2">@item.FirstName</td>
-        <td class="column100 column3" data-column="column3">@item.LastName</td>
-        <td class="column100 column4" data-column="column4">@item.Phone1</td>
-        <td class="column100 column5" data-column="column5">@item.Phone2</td>
-        <td class="column100 column6" data-column="column6">@item.Email</td>
-        <td class="column100 column7" data-column="column7">@item.Date.ToShortDateString()</td>
-        <td class="column100 column8" data-column="column8">
-            <button type="button" onclick="getApplicantDescription(this)" data-toggle="modal" data-target="#descriptionModal" value="@item.Description">View</button>
-        </td>
-        <td class="column100 column9" data-column="column9">
-            <button type="button" onclick="getApplicantLesson(this)" data-toggle="modal" data-target="#myModal" id="@item.Lesson.Id">Lesson</button>
-        </td>
-        <td class="column100 column10" data-column="column10">
-            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-        </td>
-    </tr>
-    index++;
-}
+    <button id="@(Model.PageIndex - 1)" onclick="chageTable(this)" type="button" class="btn btn-default"
+            @prevDisabled>
+        Previous (page @(Model.PageIndex - 1))
+    </button>
+    <button id="@(Model.PageIndex + 1)" onclick="chageTable(this)" type="button" class="btn btn-default"
+            @nextDisabled>
+        Next (page @(Model.PageIndex + 1))
+    </button>
+</div>

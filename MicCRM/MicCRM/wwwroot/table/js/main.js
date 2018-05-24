@@ -164,7 +164,7 @@ function toggle(source) {
     }
 }
 
-function deleteApplicants() {
+function deleteApplicants(source) {
     var arrayOfId = getIdSelectedRows();
     if (arrayOfId.length === 0) {
         return;
@@ -174,7 +174,7 @@ function deleteApplicants() {
         data: { arrayOfId },
         url: "/Applicant/Delete",
         success: function () {
-            refreshTable(arrayOfId);
+            chageTable(source);
         }
     });
     //refreshTable(arrayOfId);
@@ -196,7 +196,7 @@ function muteNotification() {
     //refreshTable(arrayOfId);
 }
 
-function makeStudent() {
+function makeStudent(source) {
     var arrayOfId = getIdSelectedRows();
     if (arrayOfId.length === 0) {
         return;
@@ -206,7 +206,7 @@ function makeStudent() {
         data: { arrayOfId },
         url: "/Applicant/MakeStudent",
         success: function () {
-            refreshTable(arrayOfId);
+            chageTable(source);
         }
     });
     //refreshTable(arrayOfId);
@@ -240,10 +240,33 @@ function getIdSelectedRows() {
     return id;
 }
 
-
-
-
 function getValueSelectedOption() {
     var lessonId = $("#LessonId").val();
     return lessonId;
+}
+
+function chageTable(source) {
+    console.log(source);
+    var teacherId = $("#TeacherId").val();
+    var technologyId = $("#TechnologyId").val();
+    var lessonId = $("#LessonId").val();
+    var firstName = $("#FirstName").val();
+    var lastName = $("#LastName").val();
+    $.ajax({
+        type: "GET",
+        data: {
+            firstName: firstName,
+            lastName: lastName,
+            lessonId: lessonId,
+            teacherId: teacherId,
+            technologyId: technologyId,
+            page: source.id
+        },
+        url: "/Applicant/Change",
+        dataType: "html",
+        success: function (obj) {
+            $('#appTable').empty();
+            $('#appTable').append(obj);
+        }
+    });
 }

@@ -460,3 +460,13 @@ th, td {
 .table100.ver6 .row100 td:hover {
   background-color: rgba(255,255,255,0.2);
 }
+
+.stdTableHor {
+    width: 1250px;
+    overflow-y: scroll;
+}
+
+.tableHor {
+    height: 275px;
+    overflow-x: scroll;
+}

@@ -26,7 +26,7 @@ namespace MicCRM.Controllers
         }
         
         [NonAction]
-        public ApplicantsAndLessonsViewModel Search(ApplicantSerachViewModel searchModel, int? page)
+        public ApplicantsAndLessonsViewModel Search(ApplicantSerachViewModel searchModel, int page)
         {
             var lessons = _dbContext.Lessons
                 .Include(l => l.Teacher)
@@ -43,7 +43,7 @@ namespace MicCRM.Controllers
             
             int pageSize = 15;
             var paginatedApplicants = PaginatedList<ApplicantInfoViewModel>.Create(
-                applicantsIVM, page ?? 1, pageSize);
+                applicantsIVM, page, pageSize);
 
             ApplicantsAndLessonsViewModel model = ApplicantMapper.Mapping(
                 paginatedApplicants, lessons, teachers, technologies,
@@ -54,15 +54,25 @@ namespace MicCRM.Controllers
         }
         
         [HttpGet]
-        public IActionResult AllApplicants(string firstName, string lastName,
-            int lessonId, int teacherId, int technologyId, int? page)
+        public IActionResult AllApplicants()
         {
             ApplicantSerachViewModel searchModel = 
-                ApplicantMapper.Mapping(firstName, lastName,lessonId, teacherId, technologyId);
+                ApplicantMapper.Mapping(string.Empty, string.Empty, 0, 0, 0);
+
+            ApplicantsAndLessonsViewModel model = Search(searchModel, 1);
+
+            return View(model);
+        }
+
+        public IActionResult Change(string firstName, string lastName,
+            int lessonId, int teacherId, int technologyId, int page)
+        {
+            ApplicantSerachViewModel searchModel =
+                ApplicantMapper.Mapping(firstName, lastName, lessonId, teacherId, technologyId);
 
             ApplicantsAndLessonsViewModel model = Search(searchModel, page);
 
-            return View(model);
+            return View("_ApplicantTablePartial", model);
         }
 
         [HttpGet]

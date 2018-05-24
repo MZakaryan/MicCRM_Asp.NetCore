@@ -15,7 +15,7 @@ namespace MicCRM.Models.ApplicantViewModels
         public int LessonId { get; set; }
         public int TeacherId { get; set; }
         public int TechnologyId { get; set; }
-        public int? PageIndex { get; set; }
+        public int PageIndex { get; set; }
         public PaginatedList<ApplicantInfoViewModel> PaginatedApplicants { get; set; }
     }
 }

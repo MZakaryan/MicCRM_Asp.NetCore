@@ -28,14 +28,15 @@ namespace MicCRM.Controllers
 
         public JsonResult GetNotification(int id)
         {
-            var not = from n in _dbContext.Notifications
-                                        .Where(n => n.Id == id)
-                      select new
-                      {
-                          n.Technology,
-                          n.Phone2,
-                          n.Email
-                      };
+            var not = _dbContext.Notifications
+                                .Where(n => n.Id == id)
+                                .OrderByDescending(n => n.Date)
+                                .Select(n => new
+                                {
+                                    n.Technology,
+                                    n.Phone2,
+                                    n.Email
+                                });
 
             return Json(not);
         }
@@ -44,7 +45,7 @@ namespace MicCRM.Controllers
         {
             var not = _dbContext.Notifications
                 .Where(n => n.IsMuted == false)
-                .OrderBy(a => a.Date);
+                .OrderByDescending(a => a.Date);
 
             List<NotificationInfoViewModel> notIVM = new List<NotificationInfoViewModel>();
             foreach (var item in not)
@@ -63,7 +64,8 @@ namespace MicCRM.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var not = _dbContext.Notifications.Find(id);
+            var not = _dbContext.Notifications
+                                .Find(id);
 
             var nots = _dbContext.Notifications
                 .Where(n => n.IsMuted == false)
